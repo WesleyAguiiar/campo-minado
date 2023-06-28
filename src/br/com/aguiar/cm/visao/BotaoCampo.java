@@ -5,7 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import br.com.aguiar.cm.modelo.Campo;
@@ -16,9 +18,11 @@ import br.com.aguiar.cm.modelo.CampoObservador;
 public class BotaoCampo extends JButton implements CampoObservador, MouseListener {
 	
 	private final Color BG_PADRAO = new Color(184, 184, 184);
-	private final Color BG_MARCAR = new Color(8, 179, 247);
-	private final Color BG_EXPLODIR = new Color(189, 66, 68);
 	private final Color TEXTO_VERDE = new Color(0, 100, 0);
+	
+	ImageIcon bandeira = new ImageIcon("E:\\Projetos Java\\campo-minado-swing\\bandeira.png");
+	ImageIcon bomba = new ImageIcon("E:\\Projetos Java\\campo-minado-swing\\bomba.png");
+	JLabel label = new JLabel(bandeira);
 	
 	private Campo campo;
 	
@@ -39,6 +43,9 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 			case MARCAR:
 				aplicarEstiloMarcar();
 				break;
+			case DESMARCAR:
+				aplicarEstiloDesmarcar();
+				break;
 			case EXPLODIR:
 				aplicarEstiloExplodir();
 				break;
@@ -52,30 +59,33 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 		});
 	}
 
+
 	private void aplicarEstiloPadrao() {
 		setBackground(BG_PADRAO);
 		setBorder(BorderFactory.createBevelBorder(0));
 		setText("");
+		setIcon(null);
 	}
 
 	private void aplicarEstiloExplodir() {
-		setBackground(BG_EXPLODIR);
 		setForeground(Color.WHITE);
-		setText("X");
+		setIcon(bomba);
 	}
 
+	private void aplicarEstiloDesmarcar() {
+		setIcon(null);
+	}
+	
 	private void aplicarEstiloMarcar() {
-		setBackground(BG_MARCAR);
 		setForeground(Color.BLACK);
-		setText("M");
-		//setIcon(getDisabledIcon()); - TODO Comando usado para setar o icon.
+		setIcon(bandeira);
 	}
 
 	private void aplicarEstiloAbrir() {
 		
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		if(campo.isMinado()) {
-			setBackground(BG_EXPLODIR);
+			setIcon(bomba);
 			return;
 		}
 		
